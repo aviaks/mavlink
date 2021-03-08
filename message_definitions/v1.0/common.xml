@@ -6029,6 +6029,7 @@
     <message id="260" name="CAMERA_SETTINGS">
       <description>Settings of a camera. Can be requested with a MAV_CMD_REQUEST_MESSAGE command.</description>
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+      <field type="uint8_t" name="camera_id">Camera ID</field>
       <field type="uint8_t" name="mode_id" enum="CAMERA_MODE">Camera mode</field>
       <extensions/>
       <field type="float" name="zoomLevel">Current zoom level (0.0 to 100.0, NaN if not known)</field>
@@ -6052,6 +6053,7 @@
     <message id="262" name="CAMERA_CAPTURE_STATUS">
       <description>Information about the status of a capture. Can be requested with a MAV_CMD_REQUEST_MESSAGE command.</description>
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+      <field type="uint8_t" name="camera_id">Camera ID</field>
       <field type="uint8_t" name="image_status">Current status of image capturing (0: idle, 1: capture in progress, 2: interval set but idle, 3: interval set and capture in progress)</field>
       <field type="uint8_t" name="video_status">Current status of video capturing (0: idle, 1: capture in progress)</field>
       <field type="float" name="image_interval" units="s">Image capture interval</field>
@@ -6340,6 +6342,37 @@
       <field type="int32_t[4]" name="rpm" units="rpm">Reported motor RPM from each ESC (negative for reverse rotation).</field>
       <field type="float[4]" name="voltage" units="V">Voltage measured from each ESC.</field>
       <field type="float[4]" name="current" units="A">Current measured from each ESC.</field>
+    </message>
+    <message id="295" name="RADIO_INFORMATION">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>Information about the status of radio module. This message is sent in response to MAV_CMD_REQUEST_RADIO_INFORMATION command.</description>
+      <field type="uint8_t" name="module_id">Radio module identificator</field>
+      <field type="float" name="snr" units="dB">Signal to noise ratio</field>
+      <field type="float" name="rssi" units="dB">Receive signal strength indicator</field>
+      <field type="uint8_t" name="tx_modulation">TX modulation</field>
+      <field type="uint8_t" name="rx_modulation">RX modulation</field>
+      <field type="uint64_t" name="tx_bytes" units="bytes">The number of transmitted bytes</field>
+      <field type="uint64_t" name="rx_bytes" units="bytes">The number of received bytes</field>
+      <field type="uint32_t" name="tx_packets">The number of transmitted packets</field>
+      <field type="uint32_t" name="rx_packets">The number of received packets</field>
+    </message>
+    <message id="296" name="RADIO_RF_SETTINGS">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>Current RF settings of radio module. This message is sent in response to MAV_CMD_REQUEST_RADIO_RF_SETTINGS command.</description>
+      <field type="float" name="frequency" units="MHz">Radio operating frequency</field>
+      <field type="float" name="bandwidth" units="MHz">Radio operating channel bandwidth</field>
+      <field type="float" name="local_tx_power" units="dB">Transmitting power of local radio module</field>
+      <field type="float" name="remote_tx_power" units="dB">Transmitting power of remote radio module</field>
+      <field type="float" name="wireless_distance" units="m">Expected distance the wireless signal needs to travel. Used to set various internal timeouts to account for this travel time.</field>
+    </message>
+    <message id="297" name="RADIO_AP_SETTINGS">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>Current access point settings of radio module. This message is sent in response to MAV_CMD_REQUEST_RADIO_AP_SETTINGS command as well as used for configuration.</description>
+      <field type="char[32]" name="ssid">Name of Wi-Fi network (SSID). Leave it blank to leave it unchanged.</field>
+      <field type="char[64]" name="password">Password. Leave it blank for an open AP.</field>
     </message>
     <message id="298" name="WIFI_NETWORK_INFO">
       <description>Detected WiFi network status information. This message is sent per each WiFi network detected in range with known SSID and general status parameters.</description>
@@ -6637,6 +6670,14 @@
       <field type="uint16_t" name="payload_type" enum="MAV_TUNNEL_PAYLOAD_TYPE">A code that identifies the content of the payload (0 for unknown, which is the default). If this code is less than 32768, it is a 'registered' payload type and the corresponding code should be added to the MAV_TUNNEL_PAYLOAD_TYPE enum. Software creators can register blocks of types as needed. Codes greater than 32767 are considered local experiments and should not be checked in to any widely distributed codebase.</field>
       <field type="uint8_t" name="payload_length">Length of the data transported in payload</field>
       <field type="uint8_t[128]" name="payload">Variable length payload. The payload length is defined by payload_length. The entire content of this block is opaque unless you understand the encoding specified by payload_type.</field>
+    </message>
+    <message id="389" name="ONBOARD_COMPUTER_VERSION">
+      <description>Version and capability of onboard computer</description>
+      <field type="uint32_t" name="flight_sw_version">Firmware version number</field>
+      <field type="uint32_t" name="middleware_sw_version">Middleware version number</field>
+      <field type="uint32_t" name="os_sw_version">Operating system version number</field>
+      <field type="uint32_t" name="board_version">HW / board version</field>
+      <field type="char[16]" name="uid">UID if provided by hardware</field>
     </message>
     <message id="390" name="ONBOARD_COMPUTER_STATUS">
       <wip/>
