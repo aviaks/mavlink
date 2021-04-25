@@ -1,0 +1,90 @@
+<?xml version='1.0'?>
+<mavlink>
+    <include>common.xml</include>
+
+    <enums>    
+      <enum name="SYSTEM_COMMAND">
+        <description>System commands for SmartAP Autopilot</description>
+        <entry value="0" name="COMMAND_PARAMS_RESTORE">
+          <description>Restore default parameters.</description>
+        </entry>
+        <entry value="1" name="COMMAND_FIRMWARE_INFO_REQUEST">
+          <description>Request firmware information.</description>
+        </entry>
+        <entry value="2" name="COMMAND_CALIBRATE_ESC">
+          <description>ESC calibration start / stop.</description>
+        </entry>
+      </enum>
+    </enums>
+    
+    <messages>
+          <message id="200" name="CAM_CONTROL">
+               <description>Camera control.</description>
+               <field type="float" name="roll">Roll value</field>
+               <field type="float" name="pitch">Pitch value</field>
+               <field type="float" name="yaw">Yaw value</field>
+               <field type="float" name="zoom">Zoom value</field>
+          </message>
+
+          <message id="201" name="STATISTICS">
+               <description>Statistics information about flight time, mileage etc.</description>
+               <field type="uint32_t" name="total_time">Total time since power up</field>
+               <field type="uint32_t" name="flight_time">Flight time since power up</field>
+               <field type="uint32_t" name="remaining_time">Battery remaining time in seconds</field>
+               <field type="uint32_t" name="mileage">Mileage since power up</field>
+          </message>
+
+          <message id="202" name="COMMAND">
+            <description>System commands sent from GCS to autopilot.</description>
+            <field type="uint8_t" name="target_system">System ID</field>
+            <field type="uint8_t" name="target_component">Component ID</field>
+            <field type="uint8_t" name="command">Command ID</field>
+            <field type="float" name="param1">Parameter 1, as defined by SYSTEM_COMMAND enum.</field>
+            <field type="float" name="param2">Parameter 2, as defined by SYSTEM_COMMAND enum.</field>
+            <field type="float" name="param3">Parameter 3, as defined by SYSTEM_COMMAND enum.</field>
+            <field type="float" name="param4">Parameter 4, as defined by SYSTEM_COMMAND enum.</field>
+            <field type="float" name="param5">Parameter 5, as defined by SYSTEM_COMMAND enum.</field>
+            <field type="float" name="param6">Parameter 6, as defined by SYSTEM_COMMAND enum.</field>
+            <field type="float" name="param7">Parameter 7, as defined by SYSTEM_COMMAND enum.</field>
+          </message>
+
+          <message id="203" name="CALIBRATION_STEP">
+               <description>Statistics information about flight time, mileage etc.</description>
+               <field type="int8_t" name="sensor_id">Calibrating sensor ID, -1 for all sensors calibration</field>
+               <field type="uint8_t" name="sensor_type">Calibrating sensor type</field>
+               <field type="uint8_t" name="step">Calibration step</field>
+          </message>
+
+          <message id="204" name="LTE_INFORMATION">
+            <wip/>
+            <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+            <description>Information about the status of LTE module.</description>
+            <field type="uint16_t" name="connection_status">Connection status (connected, disconnected, etc)</field>
+            <field type="uint16_t" name="network_type">Network type (3G, 4G, LTE)</field>
+            <field type="uint8_t" name="roaming_status">Roaming status (enabled, disabled)</field>
+            <field type="uint8_t" name="signal_level">Signal level</field>
+            <field type="char[32]" name="network_operator">Network operator name</field>
+          </message>
+
+          <message id="205" name="IRIDIUM_INFORMATION">
+            <wip/>
+            <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+            <description>High latency data sent over Iridium</description>
+            <field type="uint8_t" name="autopilot" enum="MAV_AUTOPILOT">Autopilot type / class.</field>
+            <field type="uint8_t" name="base_mode" enum="MAV_MODE_FLAG" display="bitmask">System mode bitmap.</field>
+            <field type="uint32_t" name="custom_mode">A bitfield for use for autopilot-specific flags</field>
+            <field type="uint8_t" name="system_status" enum="MAV_STATE">System status flag.</field>
+            <field type="int16_t" name="roll" units="deg">Roll</field>
+            <field type="int16_t" name="pitch" units="deg">Pitch</field>
+            <field type="uint16_t" name="heading" units="cdeg">Heading</field>
+            <field type="int32_t" name="latitude" units="degE7">Latitude</field>
+            <field type="int32_t" name="longitude" units="degE7">Longitude</field>
+            <field type="int16_t" name="altitude_amsl" units="m">Altitude above mean sea level</field>
+            <field type="uint8_t" name="groundspeed" units="m/s">groundspeed</field>
+            <field type="int8_t" name="climb_rate" units="m/s">climb rate</field>
+            <field type="uint8_t" name="gps_nsat">Number of satellites visible. If unknown, set to 255</field>
+            <field type="uint8_t" name="gps_fix_type" enum="GPS_FIX_TYPE">GPS Fix type.</field>
+            <field type="int8_t" name="battery" units="%">Battery (percentage, -1 for DNU)</field>
+          </message>
+    </messages>
+</mavlink>
